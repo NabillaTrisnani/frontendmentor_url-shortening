@@ -28,16 +28,23 @@ class Shorten extends React.Component {
             .then(
                 (result) => {   
                     
+                    // if localStorage 'data' is null make an empty array
                     if(localStorage.getItem('data') == null){
                         localStorage.setItem('data', '[]');
                     }
                     
+                    // get localStorage 'data' as var old_data
                     var old_data = JSON.parse(localStorage.getItem('data'));
+
+                    // if fetch is ok return localStorage 'data' push result
                     if (result.ok === true) {
                         old_data.push(result);
                     }
+                    
+                    // set localStorage 'data' to new data from push result
                     localStorage.setItem('data', JSON.stringify(old_data));
 
+                    // set state items equal to result, linkStorage to localStorage 'data'
                     this.setState({
                         items: result,
                         linkStorage: JSON.parse(localStorage.getItem('data'))
@@ -65,10 +72,12 @@ class Shorten extends React.Component {
                             </div>
                         </div>
                         {
+                            // validation
                             items.ok === false ? <p className="validation text-danger">Please add a link</p> : ''
                         }
                     </div>
                     {
+                        //if localStorage data is not null return map state linkStorage
                         localStorage.getItem('data') != null &&
                         linkStorage.reverse().slice(0, 3).map((item, index) => (
                             <div className='card card-link border-0' key={index}>
