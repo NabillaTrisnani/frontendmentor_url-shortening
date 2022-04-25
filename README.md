@@ -1,71 +1,81 @@
-# Getting Started with Create React App
+This is my solution to [Frontend Mentor URL shortening API landing page](https://www.frontendmentor.io/challenges/url-shortening-api-landing-page-2ce3ob-G)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
+## Table of contents
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+- [Author](#author)
 
-## Available Scripts
+## Overview
+The challenge is to integrate with the [shrtcode API](https://shrtco.de/) to create shortened URLs and display them like in the designs.
 
-In the project directory, you can run:
+### The challenge
+**User should be able to:**
+- View the optimal layout for the site depending on their device's screen size
+- Shorten any valid URL
+- See a list of their shortened links, even after refreshing the browser
+- Copy the shortened link to their clipboard in a single click
+- Receive an error message when the `form` is submitted if:
+  - The `input` field is empty
 
-### `npm start`
+### Links
+- [Solution](https://github.com/NabillaTrisnani/frontendmentor_url-shortening)
+- [Live Preview](https://nabillatrisnani-url-shortening.netlify.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## My process
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Built with:
+- HTML5
+- SCSS
+- Bootstrap
+- [React](https://reactjs.org/)
+- [shrtcode API](https://shrtco.de/)
 
-### `npm test`
+### What I learned
+- Create empty array in `localStorage`
+```
+localStorage.setItem('data', '[]');
+```
+- Put fetched data to array in `localStorage`
+```
+let param = this.state.value;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+fetch(`https://api.shrtco.de/v2/shorten?url=${param}`)
+  .then((res) => res.json())
+  .then((result) => {
+    // if localStorage 'data' is null make an empty array
+    if (localStorage.getItem("data") == null) {
+      localStorage.setItem("data", "[]");
+    }
 
-### `npm run build`
+    // get localStorage 'data' as var old_data
+    var old_data = JSON.parse(localStorage.getItem("data"));
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    // if fetch is ok return localStorage 'data' push result
+    if (result.ok === true) {
+      old_data.push(result);
+    }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    // set localStorage 'data' to new data from push result
+    localStorage.setItem("data", JSON.stringify(old_data));
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    // set state items equal to result, linkStorage to localStorage 'data'
+    this.setState({
+      items: result,
+      linkStorage: JSON.parse(localStorage.getItem("data"))
+    });
+  })
+  .catch((error) => console.log("error", error));
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# frontendmentor_url-shortening
+## Author
+- Frontend Mentor: [@NabillaTrisnani](https://www.frontendmentor.io/profile/NabillaTrisnani)
+- Github: [@NabillaTrisnani](https://github.com/NabillaTrisnani)
+- LinkendIn: [Nabilla Trisnani](https://www.linkedin.com/in/nabilla-trisnani/)
+- Twitter: [@NabillaTrisnani](https://twitter.com/NabillaTrisnani)
